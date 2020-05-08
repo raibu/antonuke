@@ -24,7 +24,7 @@ module lab3_2(bcd, seg);
     input [3:0] bcd;
     output reg [7:0] seg;
     
-    parameter   dig0 = 8'b11000000,
+    localparam  dig0 = 8'b11000000,
                 dig1 = 8'b11111001,
                 dig2 = 8'b10100100,
                 dig3 = 8'b10110000,

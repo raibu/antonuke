@@ -1,31 +1,32 @@
 `timescale 1ns/1ps
 
 
+//switched to system verilog//
+module mac #(parameter D_WD = 32) (
+	input clk,    // Clock
+	input en,
+	input rst_n,  // Asynchronous reset active low
+	input [D_WD-1:0] A, B,
+	output [D_WD*2-1:0] out
+);
 
-module lab2_1(in1, in2, in3, in4, out);
-input wire in1, in2, in3, in4;
-output wire out;	
+reg [D_WD*2-1:0] acc;
 
-assign out =  ~( 							// nor3
-				(~( 						//nand2
-					(~(in1 & !in2)) & in3) 	//nand2
-				)|
-				(~(!in1 | in2 | !in3))| 	//nor3
-				(~(in1 | in4)) 				//nor2
-				);
+always_ff @(posedge clk or negedge rst_n) begin
+	if(~rst_n) begin
+		acc <= 0;
+	end else begin
+		if (en) begin
+			acc <= acc + ({{D_WD{1'b0}},A})*({{D_WD{1'b0}},B});
+		end else begin 
+			acc <= acc;
+		end
+	end
+end
+
+assign out = acc;
 
 endmodule
-
-
-
-module lab2_2(x, y, z, out);
-input wire x, y, z;
-output wire out;	
-
-assign out =  (x & !y) | (y & z) | (x & !z);
-
-endmodule
-
 
 
 
