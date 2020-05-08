@@ -1,2 +1,2 @@
 
-verilog labs
+verilog labs (variant 6)
