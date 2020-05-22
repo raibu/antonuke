@@ -23,23 +23,24 @@ module test;
 
     covergroup cg();
         option.per_instance = 1;
-        option.at_least = 3;
-        coverpoint op{
+        //option.at_least = 3;
+        cov_op: coverpoint op{
             bins addmul = {0};
             bins subdiv = {1};
         }
-        coverpoint is_complex{
+        cov_comp: coverpoint is_complex{
             bins complex = {1};
             bins coupled = {0};
         }
-        coverpoint use_cop{
+        cov_cop: coverpoint use_cop{
             bins addsub = {0};
             bins muldiv = {1};
         }
-        coverpoint a1[WIDTH-1]{ bins plus = {0}; bins minus = {1}; }
-        coverpoint b1[WIDTH-1]{ bins plus = {0}; bins minus = {1}; }
-        coverpoint a2[WIDTH-1]{ bins plus = {0}; bins minus = {1}; }
-        coverpoint b2[WIDTH-1]{ bins plus = {0}; bins minus = {1}; }
+        cov_a1: coverpoint a1[WIDTH-1]{ bins plus = {0}; bins minus = {1}; }
+        cov_b1: coverpoint b1[WIDTH-1]{ bins plus = {0}; bins minus = {1}; }
+        cov_a2: coverpoint a2[WIDTH-1]{ bins plus = {0}; bins minus = {1}; }
+        cov_b2: coverpoint b2[WIDTH-1]{ bins plus = {0}; bins minus = {1}; }
+        all: cross cov_op, cov_comp, cov_cop, cov_a1, cov_b1, cov_a2, cov_b2;
     endgroup : cg
     cg cov;
 
@@ -67,7 +68,7 @@ module test;
 
 
         @(posedge clk);
-        repeat(100) begin 
+        repeat(1000) begin 
             a1 = $random(); 
             b1 = $random(); 
             a2 = $random(); 
@@ -79,7 +80,7 @@ module test;
 
             @(posedge clk);
             cov.sample();
-            $display("a1 %d, b1 %d, a2 %d, b2 %d, complex %b, cop %b, op %b",a1, b1, a2, b2, is_complex, use_cop, op);
+            //$display("a1 %d, b1 %d, a2 %d, b2 %d, complex %b, cop %b, op %b",a1, b1, a2, b2, is_complex, use_cop, op);
 
 
             //assertions for numbers
