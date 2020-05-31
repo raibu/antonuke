@@ -7,10 +7,12 @@ EOPTS= -work work -cdslib ${LIBDIR}/cds.lib -logfile /dev/null -errormax 15 -upd
 SOPTS= -gui -cdslib ${LIBDIR}/cds.lib -logfile /dev/null -errormax 15 -status work.test:module 
 
 
-.PHONY: all sim vlog elab
+.PHONY: all sim vlog elab firmware
 
 all: sim 
 
+firmware:
+	cd fw && sh make.sh 
 
 vlog:
 	cd ${LIBDIR} && ncvlog ${VOPTS} ${SRCS}
@@ -20,6 +22,6 @@ elab: vlog
 	cd ${LIBDIR} && ncelab ${EOPTS}
 
 
-sim: elab 
+sim: elab firmware
 	cd ${LIBDIR} && ncsim ${SOPTS}
 
